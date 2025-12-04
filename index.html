@@ -19,10 +19,21 @@
     /* Reset & base */
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
-    body{padding:0;display:flex;align-items:center;justify-content:center;min-height:100vh}
+    body{padding:0;display:flex;align-items:center;justify-content:center;min-height:100vh;overflow-x:hidden}
+
+    /* Full page falling hearts layer (fixed) */
+    .bgHearts{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .bgHearts .heart{position:absolute;left:0;top:-10vh;font-size:18px;opacity:0;will-change:transform,opacity;filter:drop-shadow(0 6px 12px rgba(0,0,0,.12));}
+
+    @keyframes fallFade{
+      0% { transform:translateY(-10vh) rotate(0deg) scale(.95); opacity:0 }
+      8% { opacity:1 }
+      92% { opacity:1 }
+      100% { transform:translateY(120vh) rotate(360deg) scale(1.15); opacity:0 }
+    }
 
     /* Mobile-first card */
-    .frame{width:100%;padding:18px;display:flex;align-items:center;justify-content:center}
+    .frame{width:100%;padding:18px;display:flex;align-items:center;justify-content:center;z-index:2}
     .card{
       width:100%;
       max-width:420px;
@@ -34,6 +45,7 @@
       text-align:center;
       position:relative;
       overflow:hidden;
+      z-index:2;
     }
 
     /* Cat emoji (will change per message) */
@@ -64,7 +76,7 @@
       line-height:1.35;
       transition:transform .28s ease,opacity .28s ease;
       position:relative;
-      z-index:2;
+      z-index:3;
       text-align:center;
       padding-left:12px;
       padding-right:12px;
@@ -81,38 +93,10 @@
       cursor:pointer;
       box-shadow:0 6px 18px rgba(0,0,0,.12);
       font-size:0.98rem;
+      z-index:3;
     }
     .btn.secondary{background:transparent;border:2px solid rgba(255,255,255,.12);color:#fff}
     .smallHint{color:#fff;opacity:.9;font-size:.86rem;margin-top:10px}
-
-    /* Falling hearts background container */
-    .bgHearts{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      overflow:hidden;
-      z-index:0;
-    }
-
-    /* Generic heart element style — animation values will be set via inline styles for variety */
-    .bgHearts .heart{
-      position:absolute;
-      top:-6%;
-      font-size:16px;
-      opacity:0;
-      transform: translateY(-10vh) scale(0.9);
-      transition: opacity .2s linear;
-      will-change:transform,opacity;
-      text-shadow: 0 2px 8px rgba(0,0,0,.12);
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,.12));
-    }
-
-    /* Animation keyframes for falling hearts (translate Y from top to bottom) */
-    @keyframes fall {
-      0% { transform: translateY(-10vh) rotate(0deg) scale(.9); opacity:0; }
-      6% { opacity:1; }
-      100% { transform: translateY(120vh) rotate(360deg) scale(1.15); opacity:0; }
-    }
 
     /* Desktop: hide mobile-only card and show hint */
     @media(min-width:641px){
@@ -137,6 +121,9 @@
   </style>
 </head>
 <body>
+  <!-- Full-page falling hearts layer -->
+  <div class="bgHearts" id="bgHearts" aria-hidden="true"></div>
+
   <div class="frame">
     <div class="card" role="region" aria-label="Apology card for Kiran">
       <div class="catWrap">
@@ -155,8 +142,6 @@
       </div>
 
       <div class="smallHint">Mobile pe hi best experience — swipe ya Next dabao</div>
-
-      <div class="bgHearts" id="bgHearts" aria-hidden="true"></div>
     </div>
 
     <div class="desktopNotice">
@@ -166,32 +151,14 @@
   </div>
 
   <script>
-    /* Hindiglish messages + an emoji per message */
+    /* Hindiglish messages + different cat emojis for each message */
     const messages = [
-      {
-        text: "Kiran, mujhe bahut afsos hai. Tumhara pyara sa smile bohot miss karta hu.",
-        emoji: "😿"
-      },
-      {
-        text: "Yaad hai tumhara birthday — cake sajaya, mast hasi aayi? Wohi khushi dubara lana chahta hu.",
-        emoji: "🎂"
-      },
-      {
-        text: "Kalgaaon mandir ka wo din — shanti thi, tumhara haath pakad ke chalna bahut khas tha.",
-        emoji: "🙏"
-      },
-      {
-        text: "Daman ki trip — samundar ke kinare chalna aur sunsets dekhna, woh memory mere favourite hai.",
-        emoji: "🌊"
-      },
-      {
-        text: "Choti choti baatein — late-night chai, masti, choti ladaaiyan aur phir gale lagna — sab priceless hai.",
-        emoji: "☕️"
-      },
-      {
-        text: "Main sudharne ka vaada karta hu. Please ek mauka do — nayi yaadein saath banaate hain? ❤️",
-        emoji: "💖"
-      }
+      { text: "Kiran, mujhe bahut afsos hai. Tumhara pyara sa smile bohot miss karta hu.", emoji: "😺" },
+      { text: "Yaad hai tumhara birthday — cake sajaya, mast hasi aayi? Wohi khushi dubara lana chahta hu.", emoji: "😸" },
+      { text: "Kalgaaon mandir ka wo din — shanti thi, tumhara haath pakad ke chalna bahut khas tha.", emoji: "😽" },
+      { text: "Daman ki trip — samundar ke kinare chalna aur sunsets dekhna, woh memory mere favourite hai.", emoji: "😻" },
+      { text: "Choti choti baatein — late-night chai, masti, choti ladaaiyan aur phir gale lagna — sab priceless hai.", emoji: "🙀" },
+      { text: "Main sudharne ka vaada karta hu. Please ek mauka do — nayi yaadein saath banaate hain? ❤️", emoji: "😿" }
     ];
 
     let index = 0;
@@ -202,28 +169,18 @@
     const bgHearts = document.getElementById('bgHearts');
 
     function show(i){
-      // small fade + translate animation
-      msgBox.style.opacity = 0;
-      msgBox.style.transform = 'translateY(8px)';
+      msgBox.style.opacity = 0; msgBox.style.transform = 'translateY(8px)';
       catEmoji.style.transform = 'translateY(-6px) scale(.98)';
       setTimeout(()=>{
         msgBox.textContent = messages[i].text;
         catEmoji.textContent = messages[i].emoji;
-        msgBox.style.opacity = 1;
-        msgBox.style.transform = 'translateY(0)';
+        msgBox.style.opacity = 1; msgBox.style.transform = 'translateY(0)';
         catEmoji.style.transform = 'translateY(0) scale(1)';
       }, 200);
     }
 
-    nextBtn.addEventListener('click', ()=>{
-      index = (index + 1) % messages.length;
-      show(index);
-    });
-
-    prevBtn.addEventListener('click', ()=>{
-      index = (index - 1 + messages.length) % messages.length;
-      show(index);
-    });
+    nextBtn.addEventListener('click', ()=>{ index = (index + 1) % messages.length; show(index); });
+    prevBtn.addEventListener('click', ()=>{ index = (index - 1 + messages.length) % messages.length; show(index); });
 
     // swipe support
     let startX = null;
@@ -236,69 +193,58 @@
       startX = null;
     });
 
-    // keyboard accessibility (some phones support keyboards or for dev testing)
+    // keyboard accessibility
     document.addEventListener('keydown', e=>{
       if (e.key === 'ArrowRight') { index = (index + 1) % messages.length; show(index); }
       if (e.key === 'ArrowLeft') { index = (index - 1 + messages.length) % messages.length; show(index); }
     });
 
-    // --- Falling hearts background (CSS animation applied via JS for variety) ---
-    // Create hearts with random left, size, duration, delay, and apply CSS 'fall' animation.
+    // --- Full-page falling hearts (more hearts, fade in/out) ---
     function spawnHeart(){
       const h = document.createElement('div');
       h.className = 'heart';
       h.textContent = '❤️';
 
-      // randomize style
-      const size = Math.random()*18 + 12; // 12 - 30 px
+      const size = Math.random()*20 + 12; // 12 - 32px
       const left = Math.random()*100; // vw
       const duration = Math.random()*3 + 5; // 5 - 8s
-      const delay = Math.random()*2; // 0 - 2s
-      const rotate = Math.random()*80 - 40; // -40 to 40 deg for initial
+      const delay = Math.random()*1.5; // 0 - 1.5s
+      const rotate = Math.random()*80 - 40;
 
       h.style.left = left + 'vw';
       h.style.fontSize = size + 'px';
       h.style.transform = `translateY(-10vh) rotate(${rotate}deg)`;
       h.style.opacity = '0';
 
-      // Use the 'fall' animation with inline values so each heart behaves differently
-      h.style.animation = `fall ${duration}s linear ${delay}s forwards`;
-      // Slight horizontal drift using transform during animation can't be easily varied via keyframes here,
-      // but rotate + left randomness gives a natural look.
+      // Apply the fallFade animation with randomized duration+delay
+      h.style.animation = `fallFade ${duration}s linear ${delay}s forwards`;
 
       bgHearts.appendChild(h);
 
-      // remove after animation finishes (duration + delay)
-      setTimeout(()=> {
-        if(h && h.parentNode) h.parentNode.removeChild(h);
-      }, (duration + delay) * 1000 + 200);
+      // Remove after animation ends
+      setTimeout(()=>{ if(h && h.parentNode) h.parentNode.removeChild(h); }, (duration + delay)*1000 + 300);
     }
 
-    // Slow spawn rate for subtle effect on mobile
-    const spawnInterval = 900; // ms
-    let heartSpawner = setInterval(spawnHeart, spawnInterval);
+    // spawn multiple hearts sometimes for denser effect
+    function spawnBatch(){
+      const count = Math.random() < 0.3 ? 2 + Math.floor(Math.random()*3) : 1; // sometimes 2-4
+      for(let i=0;i<count;i++) setTimeout(spawnHeart, i*120);
+    }
 
-    // Pause spawning if tab hidden -> battery friendly
+    const spawnInterval = 650; // slightly faster
+    let heartSpawner = setInterval(spawnBatch, spawnInterval);
+
     document.addEventListener('visibilitychange', ()=>{
       if(document.hidden){ clearInterval(heartSpawner); heartSpawner = null; }
-      else if(!heartSpawner){ heartSpawner = setInterval(spawnHeart, spawnInterval); }
+      else if(!heartSpawner){ heartSpawner = setInterval(spawnBatch, spawnInterval); }
     });
 
-    // Initialize content
+    // init
     show(0);
 
-    // Respect prefers-reduced-motion: if user prefers reduced motion, disable JS spawner & animations
+    // honor reduced-motion preference
     const mediaReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if(mediaReduce.matches){
-      // remove existing hearts and stop spawner
-      clearInterval(heartSpawner);
-      heartSpawner = null;
-      bgHearts.innerHTML = '';
-      // Ensure no CSS animation is applied by overriding animation property
-      const style = document.createElement('style');
-      style.innerText = '.bgHearts .heart{animation:none !important;opacity:1 !important}';
-      document.head.appendChild(style);
-    }
+    if(mediaReduce.matches){ clearInterval(heartSpawner); heartSpawner = null; bgHearts.innerHTML = ''; }
   </script>
 </body>
 </html>
