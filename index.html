@@ -4,156 +4,123 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#ff9a9e" />
-  <title>I'm Sorry ❤️</title>
+  <title>I'm Sorry — Kiran ❤️</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-    :root{
-      --bg1: #ff9a9e;
-      --bg2: #fecfef;
-      --accent: #ff5e78;
-      --glass: rgba(255,255,255,0.18);
-      --glass-strong: rgba(255,255,255,0.28);
+    :root{ --bg1:#ff9a9e; --bg2:#fecfef; --accent:#ff5e78; }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
+
+    /* Mobile-first: the apology experience is intentionally optimized for mobile */
+    .frame{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+    .card{width:100%;max-width:420px;background:rgba(255,255,255,0.16);backdrop-filter:blur(8px);border-radius:16px;padding:20px 18px;box-shadow:0 12px 30px rgba(0,0,0,.16);text-align:center;position:relative;overflow:hidden}
+
+    .cat{font-size:46px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.22));display:inline-block;transform-origin:center;animation:catFloat 3s ease-in-out infinite}
+    @keyframes catFloat{0%{transform:translateY(0)}50%{transform:translateY(-8px) rotate(-6deg)}100%{transform:translateY(0)}}
+
+    h1{font-size:1.4rem;color:#fff;margin:6px 0 8px;font-weight:700}
+    .sub{color:#fff;opacity:.95;font-size:.98rem;margin-bottom:12px}
+
+    .msgBox{background:rgba(255,255,255,.06);border-radius:12px;padding:16px;min-height:110px;color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1.3;transition:transform .28s ease,opacity .28s ease}
+
+    .controls{display:flex;gap:10px;justify-content:center;margin-top:14px}
+    .btn{padding:10px 14px;border-radius:999px;border:none;font-weight:700;background:#fff;color:var(--accent);cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
+    .btn.secondary{background:transparent;border:2px solid rgba(255,255,255,.12);color:#fff}
+
+    .smallHint{color:#fff;opacity:.85;font-size:.86rem;margin-top:10px}
+
+    /* Desktop: hide the mobile-only interactive part and show a simple hint */
+    @media(min-width:641px){
+      .card{display:none}
+      .desktopNotice{display:block; text-align:center; color:#fff}
     }
+    .desktopNotice{display:none;padding:30px}
 
-    * { box-sizing: border-box; }
-    html,body{ height:100%; margin:0; padding:0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
-      display:flex; align-items:center; justify-content:center;
-      padding:24px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-      overflow:auto;
-    }
+    /* subtle swipe indicator for mobile */
+    .swipe{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;font-size:12px;color:rgba(255,255,255,.8)}
 
-    .container {
-      width:100%;
-      max-width:720px;
-      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,0.08));
-      backdrop-filter: blur(10px);
-      border-radius:18px;
-      padding:32px 36px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
-      text-align:center;
-      position:relative;
-      animation:pop .6s cubic-bezier(.2,.9,.3,1);
-    }
-
-    @keyframes pop{ from{ transform:translateY(8px) scale(.98); opacity:0 } to{ transform:none; opacity:1 } }
-
-    h1{ color:#fff; font-weight:700; font-size:2.6rem; margin-bottom:12px; text-shadow:0 4px 12px rgba(0,0,0,0.25); }
-    p.lead{ color:#fff; font-size:1.15rem; margin-bottom:20px; opacity:0.98; }
-
-    .actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-    button{ background:#fff; color:var(--accent); border:none; padding:12px 26px; border-radius:999px; font-weight:600; cursor:pointer; font-size:1rem; transition:transform .18s ease, background .18s ease; }
-    button.secondary{ background:transparent; border:2px solid rgba(255,255,255,0.18); color:#fff; }
-    button:active{ transform:scale(.98); }
-    button:hover{ transform:translateY(-4px); }
-
-    #msg{ display:none; margin-top:18px; font-size:1.2rem; font-weight:600; color:#fff; }
-
-    .hearts{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
-    .heart{ position:absolute; font-size:20px; animation:floatUp 5s linear infinite; will-change:transform,opacity; }
-    @keyframes floatUp{ 0%{ transform:translateY(110vh) rotate(0) scale(.9); opacity:0 } 10%{ opacity:1 } 100%{ transform:translateY(-20vh) rotate(360deg) scale(1.4); opacity:0 } }
-
-    /* Responsive adjustments */
-    @media (max-width:640px){
-      .container{ padding:22px; max-width:420px; }
-      h1{ font-size:2rem; }
-      p.lead{ font-size:1rem; }
-      button{ padding:10px 20px; font-size:0.98rem; }
-      .heart{ font-size:16px; }
-    }
-
-    @media (max-width:380px){
-      body{ padding:16px; }
-      .container{ padding:18px; border-radius:14px; }
-      h1{ font-size:1.6rem; }
-      p.lead{ font-size:0.95rem; }
-      button{ width:100%; }
-    }
-
-    /* Respect users who prefer reduced motion */
-    @media (prefers-reduced-motion: reduce){
-      .hearts, .heart{ animation:none !important; }
-      *{ transition:none !important; }
-    }
-
+    /* reduced motion */
+    @media (prefers-reduced-motion: reduce){ .cat{animation:none} }
   </style>
 </head>
 <body>
 
-  <div class="hearts" id="hearts" aria-hidden="true"></div>
+  <div class="frame">
 
-  <main class="container" role="main" aria-labelledby="title">
-    <h1 id="title">I'm Really Sorry ❤️</h1>
-    <p class="lead">Baby, I never meant to make you upset. You mean the world to me, and I hate seeing you hurt.</p>
+    <div class="card" role="region" aria-label="Apology card for Kiran">
+      <div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px">
+        <div class="cat" aria-hidden="true">😺</div>
+        <div style="text-align:left">
+          <h1>For Kiran ❤️</h1>
+          <div class="sub">I made this little card so you know how much our moments mean to me.</div>
+        </div>
+      </div>
 
-    <div class="actions" role="group" aria-label="Apology actions">
-      <button id="showBtn" onclick="showMessage()">Open My Heart</button>
-      <button class="secondary" id="playBtn" onclick="toggleMusic()" aria-pressed="false">Play a Song</button>
+      <div id="msgBox" class="msgBox" aria-live="polite">Hey Kiran — can I share something from my heart?</div>
+
+      <div class="controls">
+        <button id="prev" class="btn secondary" aria-label="Previous message">◀ Prev</button>
+        <button id="next" class="btn" aria-label="Next message">Next 💌</button>
+      </div>
+
+      <div class="smallHint">Tap <strong>Next</strong> to read — made just for mobile phones.</div>
+      <div class="swipe">Swipe or tap • Mobile view only</div>
     </div>
 
-    <p id="msg" aria-live="polite">I love you, and I'm truly sorry ❤️</p>
-  </main>
+    <div class="desktopNotice">
+      <h2>Open this page on your phone for the full experience 💕</h2>
+      <p>It's designed to be a sweet, mobile-only card for Kiran — visit this link on her phone or yours.</p>
+    </div>
 
-  <audio id="audio" src="" preload="none"></audio>
+  </div>
 
   <script>
-    const msg = document.getElementById('msg');
-    const showBtn = document.getElementById('showBtn');
-    const hearts = document.getElementById('hearts');
-    const audio = document.getElementById('audio');
-    const playBtn = document.getElementById('playBtn');
+    // Messages personalized for Kiran with references to shared memories
+    const messages = [
+      "Kiran — I'm so sorry. I miss your smile and the way we laugh together.",
+      "Remember your birthday when we laughed so much decorating the cake? That happiness is what I want for you every day.",
+      "I still think about our temple visit to Kalgaaon — the quiet moments we shared felt so peaceful and close.",
+      "Our Daman trip was pure joy — walking along the shore with you will always be one of my favorite memories.",
+      "All the little times — coffee, late-night talks, silly fights that ended in hugs — I treasure them all. I'm sorry and I love you.",
+      "No excuse is enough, but I promise to do better. Can we make new beautiful memories together? ❤️"
+    ];
 
-    function showMessage(){
-      msg.style.display = 'block';
-      showBtn.disabled = true;
-      showBtn.style.opacity = 0.9;
-      // gentle focus to the message for screen readers
-      msg.setAttribute('tabindex','-1');
-      msg.focus({preventScroll:true});
+    let index = 0;
+    const msgBox = document.getElementById('msgBox');
+    const nextBtn = document.getElementById('next');
+    const prevBtn = document.getElementById('prev');
+
+    function show(idx){
+      // tiny animation
+      msgBox.style.opacity = 0; msgBox.style.transform = 'translateY(6px)';
+      setTimeout(()=>{
+        msgBox.textContent = messages[idx];
+        msgBox.style.opacity = 1; msgBox.style.transform = 'translateY(0)';
+      },220);
     }
 
-    function createHeart(){
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.textContent = '❤️';
-      const size = Math.random()*18 + 10; // 10 - 28px on desktop
-      h.style.fontSize = size + 'px';
-      h.style.left = (Math.random()*100) + 'vw';
-      h.style.animationDuration = (Math.random()*3 + 4) + 's';
-      hearts.appendChild(h);
-      setTimeout(()=> h.remove(), 7000);
-    }
+    nextBtn.addEventListener('click', ()=>{ index = (index + 1) % messages.length; show(index); });
+    prevBtn.addEventListener('click', ()=>{ index = (index - 1 + messages.length) % messages.length; show(index); });
 
-    // slower spawn on mobile to save battery
-    const interval = window.innerWidth < 420 ? 600 : 300;
-    const heartSpawner = setInterval(createHeart, interval);
+    // swipe support for mobile
+    let startX = null;
+    msgBox.addEventListener('touchstart', e=>{ startX = e.touches[0].clientX; });
+    msgBox.addEventListener('touchend', e=>{
+      if(startX === null) return;
+      const dx = (e.changedTouches[0].clientX - startX);
+      if(dx < -30) { index = (index + 1) % messages.length; show(index); }
+      if(dx > 30) { index = (index - 1 + messages.length) % messages.length; show(index); }
+      startX = null;
+    });
 
-    // lightweight music toggle (user can supply a URL by editing the audio src in the canvas file)
-    function toggleMusic(){
-      if(!audio.src){
-        // If you want a track, set audio.src = 'path/to/your-file.mp3' in the canvas editor.
-        playBtn.textContent = 'No song set';
-        setTimeout(()=> playBtn.textContent = 'Play a Song', 1500);
-        return;
-      }
+    // initialize
+    show(0);
 
-      if(audio.paused){
-        audio.play();
-        playBtn.textContent = 'Pause Song';
-        playBtn.setAttribute('aria-pressed','true');
-      } else {
-        audio.pause();
-        playBtn.textContent = 'Play a Song';
-        playBtn.setAttribute('aria-pressed','false');
-      }
-    }
-
-    // make sure hearts stop when tab isn't visible
-    document.addEventListener('visibilitychange', ()=>{
-      if(document.hidden){ clearInterval(heartSpawner); }
+    // Accessibility: allow keyboard navigation on mobile-like devices
+    document.addEventListener('keydown', e=>{
+      if(e.key === 'ArrowRight') { index = (index + 1) % messages.length; show(index); }
+      if(e.key === 'ArrowLeft') { index = (index - 1 + messages.length) % messages.length; show(index); }
     });
 
   </script>
