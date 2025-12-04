@@ -3,129 +3,159 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff9a9e" />
   <title>I'm Sorry ❤️</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+    :root{
+      --bg1: #ff9a9e;
+      --bg2: #fecfef;
+      --accent: #ff5e78;
+      --glass: rgba(255,255,255,0.18);
+      --glass-strong: rgba(255,255,255,0.28);
     }
 
+    * { box-sizing: border-box; }
+    html,body{ height:100%; margin:0; padding:0; }
     body {
-      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--bg1) 0%, var(--bg2) 100%);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      overflow:auto;
     }
 
     .container {
-      text-align: center;
-      padding: 20px;
-      max-width: 600px;
-      background: rgba(255, 255, 255, 0.2);
+      width:100%;
+      max-width:720px;
+      background: linear-gradient(180deg, var(--glass), rgba(255,255,255,0.08));
       backdrop-filter: blur(10px);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      animation: pop 0.8s ease;
+      border-radius:18px;
+      padding:32px 36px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      text-align:center;
+      position:relative;
+      animation:pop .6s cubic-bezier(.2,.9,.3,1);
     }
 
-    @keyframes pop {
-      0% { transform: scale(0.5); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes pop{ from{ transform:translateY(8px) scale(.98); opacity:0 } to{ transform:none; opacity:1 } }
+
+    h1{ color:#fff; font-weight:700; font-size:2.6rem; margin-bottom:12px; text-shadow:0 4px 12px rgba(0,0,0,0.25); }
+    p.lead{ color:#fff; font-size:1.15rem; margin-bottom:20px; opacity:0.98; }
+
+    .actions{ display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    button{ background:#fff; color:var(--accent); border:none; padding:12px 26px; border-radius:999px; font-weight:600; cursor:pointer; font-size:1rem; transition:transform .18s ease, background .18s ease; }
+    button.secondary{ background:transparent; border:2px solid rgba(255,255,255,0.18); color:#fff; }
+    button:active{ transform:scale(.98); }
+    button:hover{ transform:translateY(-4px); }
+
+    #msg{ display:none; margin-top:18px; font-size:1.2rem; font-weight:600; color:#fff; }
+
+    .hearts{ position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .heart{ position:absolute; font-size:20px; animation:floatUp 5s linear infinite; will-change:transform,opacity; }
+    @keyframes floatUp{ 0%{ transform:translateY(110vh) rotate(0) scale(.9); opacity:0 } 10%{ opacity:1 } 100%{ transform:translateY(-20vh) rotate(360deg) scale(1.4); opacity:0 } }
+
+    /* Responsive adjustments */
+    @media (max-width:640px){
+      .container{ padding:22px; max-width:420px; }
+      h1{ font-size:2rem; }
+      p.lead{ font-size:1rem; }
+      button{ padding:10px 20px; font-size:0.98rem; }
+      .heart{ font-size:16px; }
     }
 
-    h1 {
-      font-size: 2.5rem;
-      color: #fff;
-      margin-bottom: 20px;
-      font-weight: 700;
-      text-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    @media (max-width:380px){
+      body{ padding:16px; }
+      .container{ padding:18px; border-radius:14px; }
+      h1{ font-size:1.6rem; }
+      p.lead{ font-size:0.95rem; }
+      button{ width:100%; }
     }
 
-    p {
-      font-size: 1.2rem;
-      color: #fff;
-      margin-bottom: 25px;
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .hearts, .heart{ animation:none !important; }
+      *{ transition:none !important; }
     }
 
-    button {
-      padding: 12px 28px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 30px;
-      background: #fff;
-      color: #ff5e78;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      transform: scale(1.1);
-      background: #ff5e78;
-      color: #fff;
-    }
-
-    .hearts {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .heart {
-      position: absolute;
-      color: rgba(255, 0, 100, 0.6);
-      font-size: 20px;
-      animation: floatUp 4s linear infinite;
-    }
-
-    @keyframes floatUp {
-      0% { transform: translateY(100vh) scale(0.8); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
-    }
   </style>
 </head>
 <body>
 
-  <div class="hearts" id="hearts"></div>
+  <div class="hearts" id="hearts" aria-hidden="true"></div>
 
-  <div class="container">
-    <h1>I'm Really Sorry ❤️</h1>
-    <p>Baby, I never meant to make you upset. You mean the world to me, and I hate seeing you hurt.</p>
-    <button onclick="showMessage()">Click Here</button>
-    <p id="msg" style="display:none; margin-top:20px; font-size:1.4rem; font-weight:600;">I love you, and I'm truly sorry ❤️</p>
-  </div>
+  <main class="container" role="main" aria-labelledby="title">
+    <h1 id="title">I'm Really Sorry ❤️</h1>
+    <p class="lead">Baby, I never meant to make you upset. You mean the world to me, and I hate seeing you hurt.</p>
+
+    <div class="actions" role="group" aria-label="Apology actions">
+      <button id="showBtn" onclick="showMessage()">Open My Heart</button>
+      <button class="secondary" id="playBtn" onclick="toggleMusic()" aria-pressed="false">Play a Song</button>
+    </div>
+
+    <p id="msg" aria-live="polite">I love you, and I'm truly sorry ❤️</p>
+  </main>
+
+  <audio id="audio" src="" preload="none"></audio>
 
   <script>
-    function showMessage() {
-      document.getElementById('msg').style.display = 'block';
+    const msg = document.getElementById('msg');
+    const showBtn = document.getElementById('showBtn');
+    const hearts = document.getElementById('hearts');
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('playBtn');
+
+    function showMessage(){
+      msg.style.display = 'block';
+      showBtn.disabled = true;
+      showBtn.style.opacity = 0.9;
+      // gentle focus to the message for screen readers
+      msg.setAttribute('tabindex','-1');
+      msg.focus({preventScroll:true});
     }
 
-    function createHeart() {
-      const hearts = document.getElementById('hearts');
-      const heart = document.createElement('div');
-      heart.classList.add('heart');
-      heart.innerHTML = '❤️';
-      heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
-      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-
-      hearts.appendChild(heart);
-
-      setTimeout(() => heart.remove(), 4000);
+    function createHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = '❤️';
+      const size = Math.random()*18 + 10; // 10 - 28px on desktop
+      h.style.fontSize = size + 'px';
+      h.style.left = (Math.random()*100) + 'vw';
+      h.style.animationDuration = (Math.random()*3 + 4) + 's';
+      hearts.appendChild(h);
+      setTimeout(()=> h.remove(), 7000);
     }
 
-    setInterval(createHeart, 300);
+    // slower spawn on mobile to save battery
+    const interval = window.innerWidth < 420 ? 600 : 300;
+    const heartSpawner = setInterval(createHeart, interval);
+
+    // lightweight music toggle (user can supply a URL by editing the audio src in the canvas file)
+    function toggleMusic(){
+      if(!audio.src){
+        // If you want a track, set audio.src = 'path/to/your-file.mp3' in the canvas editor.
+        playBtn.textContent = 'No song set';
+        setTimeout(()=> playBtn.textContent = 'Play a Song', 1500);
+        return;
+      }
+
+      if(audio.paused){
+        audio.play();
+        playBtn.textContent = 'Pause Song';
+        playBtn.setAttribute('aria-pressed','true');
+      } else {
+        audio.pause();
+        playBtn.textContent = 'Play a Song';
+        playBtn.setAttribute('aria-pressed','false');
+      }
+    }
+
+    // make sure hearts stop when tab isn't visible
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ clearInterval(heartSpawner); }
+    });
+
   </script>
 
 </body>
