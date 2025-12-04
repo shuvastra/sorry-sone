@@ -12,36 +12,37 @@
     *{box-sizing:border-box}
     html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));-webkit-font-smoothing:antialiased}
 
-    /* Mobile-first: the apology experience is intentionally optimized for mobile */
-    .frame{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-    .card{width:100%;max-width:420px;background:rgba(255,255,255,0.16);backdrop-filter:blur(8px);border-radius:16px;padding:20px 18px;box-shadow:0 12px 30px rgba(0,0,0,.16);text-align:center;position:relative;overflow:hidden}
+    /* Mobile-first card (works best on phones) */
+    .frame{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:18px}
+    .card{width:100%;max-width:420px;background:linear-gradient(180deg,rgba(255,255,255,0.12),rgba(255,255,255,0.06));backdrop-filter:blur(8px);border-radius:16px;padding:16px 14px;box-shadow:0 12px 30px rgba(0,0,0,.16);text-align:center;position:relative;overflow:hidden}
 
-    .cat{font-size:46px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.22));display:inline-block;transform-origin:center;animation:catFloat 3s ease-in-out infinite}
-    @keyframes catFloat{0%{transform:translateY(0)}50%{transform:translateY(-8px) rotate(-6deg)}100%{transform:translateY(0)}}
+    /* cute gif/image */
+    .gifWrap{display:flex;justify-content:center;margin-bottom:10px}
+    .gif{width:120px;height:120px;border-radius:14px;object-fit:cover;box-shadow:0 10px 26px rgba(0,0,0,.18);border:4px solid rgba(255,255,255,.12)}
 
-    h1{font-size:1.4rem;color:#fff;margin:6px 0 8px;font-weight:700}
-    .sub{color:#fff;opacity:.95;font-size:.98rem;margin-bottom:12px}
+    h1{font-size:1.25rem;color:#fff;margin:6px 0 6px;font-weight:700}
+    .sub{color:#fff;opacity:.95;font-size:.94rem;margin-bottom:10px}
 
-    .msgBox{background:rgba(255,255,255,.06);border-radius:12px;padding:16px;min-height:110px;color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1.3;transition:transform .28s ease,opacity .28s ease}
+    .msgBox{background:rgba(255,255,255,.06);border-radius:12px;padding:14px;min-height:120px;color:#fff;font-weight:600;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1.3;transition:transform .28s ease,opacity .28s ease;position:relative;z-index:2}
 
-    .controls{display:flex;gap:10px;justify-content:center;margin-top:14px}
+    .controls{display:flex;gap:10px;justify-content:center;margin-top:12px}
     .btn{padding:10px 14px;border-radius:999px;border:none;font-weight:700;background:#fff;color:var(--accent);cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.12)}
     .btn.secondary{background:transparent;border:2px solid rgba(255,255,255,.12);color:#fff}
 
-    .smallHint{color:#fff;opacity:.85;font-size:.86rem;margin-top:10px}
+    .smallHint{color:#fff;opacity:.9;font-size:.86rem;margin-top:10px}
+
+    /* background hearts layer */
+    .bgHearts{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .heart{position:absolute;font-size:18px;opacity:0;will-change:transform,opacity}
 
     /* Desktop: hide the mobile-only interactive part and show a simple hint */
-    @media(min-width:641px){
-      .card{display:none}
-      .desktopNotice{display:block; text-align:center; color:#fff}
-    }
+    @media(min-width:641px){ .card{display:none} .desktopNotice{display:block;text-align:center;color:#fff} }
     .desktopNotice{display:none;padding:30px}
 
-    /* subtle swipe indicator for mobile */
-    .swipe{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;font-size:12px;color:rgba(255,255,255,.8)}
+    /* responsive tweaks */
+    @media(max-width:380px){ .gif{width:100px;height:100px} h1{font-size:1.05rem} .msgBox{min-height:110px;font-size:0.98rem} }
 
-    /* reduced motion */
-    @media (prefers-reduced-motion: reduce){ .cat{animation:none} }
+    @media (prefers-reduced-motion: reduce){ .heart{animation:none !important} }
   </style>
 </head>
 <body>
@@ -49,41 +50,40 @@
   <div class="frame">
 
     <div class="card" role="region" aria-label="Apology card for Kiran">
-      <div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px">
-        <div class="cat" aria-hidden="true">😺</div>
-        <div style="text-align:left">
-          <h1>For Kiran ❤️</h1>
-          <div class="sub">I made this little card so you know how much our moments mean to me.</div>
-        </div>
+
+      <div class="gifWrap">
+        <!-- Embedded cute cat image (uploaded to the environment) -->
+        <img src="/mnt/data/56e1fbad-59a6-438d-a73b-2ee5874c07fb.png" alt="cute cats gif" class="gif">
       </div>
 
-      <div id="msgBox" class="msgBox" aria-live="polite">Hey Kiran — can I share something from my heart?</div>
+      <h1>For Kiran ❤️ Sorry bebs!</h1>
+      <div class="sub">Yeh chhoti si card tumhare liye — bas tumhari muskaan wapas chahiye.</div>
+
+      <div id="msgBox" class="msgBox" aria-live="polite">Kiran — kya main tumse ek baat share karu?</div>
 
       <div class="controls">
         <button id="prev" class="btn secondary" aria-label="Previous message">◀ Prev</button>
         <button id="next" class="btn" aria-label="Next message">Next 💌</button>
       </div>
-
-      <div class="smallHint">Tap <strong>Next</strong> to read — made just for mobile phones.</div>
-      <div class="swipe">Swipe or tap • Mobile view only</div>
+      <div class="bgHearts" id="bgHearts" aria-hidden="true"></div>
     </div>
 
     <div class="desktopNotice">
-      <h2>Open this page on your phone for the full experience 💕</h2>
-      <p>It's designed to be a sweet, mobile-only card for Kiran — visit this link on her phone or yours.</p>
+      <h2>Open on phone ke liye best hai 💕</h2>
+      <p>Yeh page mobile pe khol ke dekho — phone pe hi full interactive card milega.</p>
     </div>
 
   </div>
 
   <script>
-    // Messages personalized for Kiran with references to shared memories
+    // Hindiglish messages referencing your memories
     const messages = [
-      "Kiran — I'm so sorry. I miss your smile and the way we laugh together.",
-      "Remember your birthday when we laughed so much decorating the cake? That happiness is what I want for you every day.",
-      "I still think about our temple visit to Kalgaaon — the quiet moments we shared felt so peaceful and close.",
-      "Our Daman trip was pure joy — walking along the shore with you will always be one of my favorite memories.",
-      "All the little times — coffee, late-night talks, silly fights that ended in hugs — I treasure them all. I'm sorry and I love you.",
-      "No excuse is enough, but I promise to do better. Can we make new beautiful memories together? ❤️"
+      "Kiran, mujhe bahut afsos hai (ghanta). Tumhara wo pyara sa smile miss karta hu(kuch bhi).",
+      "Yaad hai tumhara birthday jab humne cake sajaya aur kitna hassi aayi? Aise khushi dubara lana chahta hu.(jhooth hai ye)",
+      "Kalgaaon ke mandir ka wo shanti bhara din hamesha mere dil mein hai (ye to hai) — tumhara haath pakadna yaad aata hai.(chhii)",
+      "Daman ki trip — samundar ke kinare chalna aur tumhare saath sunsets dekhna meri favorite memory hai.(sachi n)",
+      "Humne milke jitne chote moments bitaye — late-night chai, masti, choti choti ladaaiyan aur phir gale lagna — sab kuch qeemti hai.",
+      "Kuch bhi kehna asaan nahi, lekin main sudharne ka vaada karta hu. Kya hum naye pal saath bana sakte hain? ❤️"
     ];
 
     let index = 0;
@@ -92,12 +92,11 @@
     const prevBtn = document.getElementById('prev');
 
     function show(idx){
-      // tiny animation
-      msgBox.style.opacity = 0; msgBox.style.transform = 'translateY(6px)';
+      msgBox.style.opacity = 0; msgBox.style.transform = 'translateY(8px)';
       setTimeout(()=>{
         msgBox.textContent = messages[idx];
         msgBox.style.opacity = 1; msgBox.style.transform = 'translateY(0)';
-      },220);
+      },200);
     }
 
     nextBtn.addEventListener('click', ()=>{ index = (index + 1) % messages.length; show(index); });
@@ -114,15 +113,45 @@
       startX = null;
     });
 
-    // initialize
-    show(0);
+    // background hearts generator (subtle, low-frequency on mobile)
+    const heartsLayer = document.getElementById('bgHearts');
+    function spawnHeart(){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      h.textContent = '❤️';
+      const size = Math.random()*18 + 12; // 12-30px
+      h.style.fontSize = size + 'px';
+      h.style.left = Math.random()*100 + 'vw';
+      const duration = Math.random()*4 + 4; // 4-8s
+      h.style.transition = `transform ${duration}s linear, opacity ${duration}s linear`;
+      h.style.transform = `translateY(110vh) rotate(${Math.random()*60-30}deg) scale(0.9)`;
+      h.style.opacity = '0';
+      heartsLayer.appendChild(h);
 
-    // Accessibility: allow keyboard navigation on mobile-like devices
-    document.addEventListener('keydown', e=>{
-      if(e.key === 'ArrowRight') { index = (index + 1) % messages.length; show(index); }
-      if(e.key === 'ArrowLeft') { index = (index - 1 + messages.length) % messages.length; show(index); }
+      // animate using rAFish transitions
+      requestAnimationFrame(()=>{
+        h.style.transform = `translateY(-20vh) rotate(${Math.random()*360}deg) scale(1.2)`;
+        h.style.opacity = '1';
+      });
+
+      setTimeout(()=>{
+        h.style.opacity = '0';
+        setTimeout(()=> h.remove(), duration*1000);
+      }, duration*1000 + 200);
+    }
+
+    // spawn slowly to be subtle on mobile
+    const spawnInterval = 900; // every 0.9s
+    let spawner = setInterval(spawnHeart, spawnInterval);
+
+    // stop when not visible to save battery
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ clearInterval(spawner); }
+      else { spawner = setInterval(spawnHeart, spawnInterval); }
     });
 
+    // init
+    show(0);
   </script>
 
 </body>
